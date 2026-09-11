@@ -1,0 +1,27 @@
+name: AntiPlayerKill
+version: 1.0.0
+main: org.antipk.AntiPlayerKill
+api-version: '1.20.5'
+authors: [blackgeyer/blackgeier]
+
+permissions:
+  antipk.bypass.aggression:
+    description: Allows you to kill players without being marked as the aggressor.
+    default: false
+  antipk.reload:
+    description: Allows to use /antipk reload command.
+    default: op
+  antipk.dumps:
+    description: Allows to manage dump system.
+    default: op
+
+commands:
+  pvp:
+    description: Commands for by mutual agreed PvP management.
+    usage: /pvp <nickname|confirm|deny|end>
+  group:
+    description: Commands for groups management.
+    usage: /group <create|invite|accept|delete|exile|leave|info>
+  antipk:
+    description: AntiPK management commands.
+    usage: /antipk <reload|dump>

@@ -1,0 +1,172 @@
+warns:
+  # If false, the warning system is disabled and punishments execute immediately without warning accumulation.
+  # NOTE: Disabling warnings does NOT disable chat notifications if 'warns-msg-is-enabled' is set to true.
+  warns-is-enabled: true
+
+  # Dynamic message sent when warnings are enabled and accumulated.
+  # Placeholders: %player%, %warns%, %max_warns%, %reason%
+  warn-msg: "<red>[!] You committed an unauthorized kill. Violation logged: [<white>%warns%/%max_warns%</white>].</red>"
+
+  # Final warning message sent when the warning threshold is reached right before executing the punishment command.
+  # Placeholders: %player%, %duration%, %reason%
+  last-warn-msg: "<dark_red><bold>[WARNING]</bold></dark_red> <red>Maximum limit reached. Any subsequent unauthorized kill will trigger an immediate punishment.</red>"
+
+  # Static warning message sent when 'warns-msg-is-enabled' is true, but 'warns-is-enabled' is false.
+  # Placeholders: %player%, %reason%
+  static-warn-msg: "<red>[!] You committed an unauthorized kill of a player.</red>"
+
+  # Master chat notification switch.
+  # If false, no warning or static messages will be sent to the player (silent mode), but punishments remain active.
+  warns-msg-is-enabled: true
+
+  # If false, warns will be static. Consequently, they will not removed never.
+  warn-is-dynamic: true
+  # Time before next warn will remove. Warns removes one by one.
+  warn-decay-minutes: 180
+
+  # Total warning count required to trigger punishment execution.
+  warn-limit: 2
+
+actions:
+  # If false, the plugin will not apply any automatic actions to violators.
+  actions-is-enabled: true
+
+  # Console command executed when a player exceeds the warning limit.
+  # Flexible templates:
+  #   For TempBans: "tempban %player% %duration% %reason%"
+  #   For Kicks:    "kick %player% %reason%"
+  #   For Custom:   "litebans:ban %player% %duration% -s %reason%"
+  # Available placeholders: %player%, %duration%, %reason%
+  punishment-command: "ban %player% %duration% %reason%"
+
+  # Default reason passed to the %reason% placeholder.
+  default-reason: "Exceeded maximum RDM violation limit."
+
+  # Enables progressive duration scaling for repeat offenders.
+  # Automatically ignored if %duration% placeholder is missing from punishment-command.
+  relapse-detect: true
+
+  # Base duration for the first punishment.
+  base-punishment-duration: "24h"
+
+  # Multiplier applied to base-punishment-duration for subsequent offenses.
+  # Formula: duration = base * (multiplier ^ offenses)
+  repeat-multiplier: 2.0
+
+  # Hard duration cap
+  max-duration: "30d"
+
+combat:
+
+  # Time window (in seconds) that aggression status stays active after the last hit.
+  ttl-seconds: 30
+
+  # Minimum damage to confirm the aggression status (1.0 = 0.5 heart)
+  min-damage-threshold: 4.0
+
+  # Minimum consecutive hits required to confirm intentional aggression.
+  min-hits-threshold: 2
+
+dumps:
+  # Saves a dump of the player's inventory at the moment of their death, provided they were not killed by mutual consent. This is necessary to restore the inventories of killed players. It is strongly recommended that you do not disable this feature. 
+  dump-creating: true
+
+  # Clears the player's inventory upon death, provided they were not killed by mutual consent. This is to prevent aggressors from obtaining resources unfairly. It is strongly recommended that you do not disable this setting to avoid dupes. 
+  inv-clear-when-die: true
+
+  # Dump Lifespan. The dumps will be deleted after the time specified below has elapsed
+  clear-time: "7d"
+
+
+
+messages:
+  group:
+    created: "<green>Group created.</green>"
+    deleted: "<red>Group disbanded.</red>"
+    invited-sender: "<green>Invited <white>%target%</white> to group.</green>"
+    invited-target: "<yellow><white>%player%</white> invited you to group. Type <white>/group accept</white>.</yellow>"
+    accepted: "<green>Joined group.</green>"
+    no-invites: "<red>No pending group invites.</red>"
+    player-not-found: "<red>Player not found or invalid target.</red>"
+    in-duel-error: "<red>Cannot modify group while in a duel.</red>"
+    usage: "<yellow>Usage: /group create | /group invite <player> | /group exile <player> | /group accept | /group leave | /group delete | /group info</yellow>"
+
+    # -- /group info --
+    info-header: "<dark_aqua>━━━ Group Info ━━━</dark_aqua>"
+    # Placeholder: %player%
+    info-leader: "<aqua>Leader: <white>%player%</white></aqua>"
+    # Placeholders: %count%, %list%
+    info-members: "<aqua>Members (<white>%count%</white>): <white>%list%</white></aqua>"
+    # Appended to offline members in the list, e.g. "Steve [offline]"
+    info-offline-marker: " <gray>[offline]</gray>"
+    group-disbanded: "<red>Your group has been disbanded by the leader.</red>"
+    no-group: "<red>You are not a member of any group.</red>"
+    not-leader: "<red>This command can only be used by the group leader.</red>"
+
+    # -- /group leave --
+    left: "<red>You left the group.</red>"
+    player-left: "<red><white>%player%</white> left the group.</red>"
+    # Sent to all remaining members when the leader leaves and leadership transfers
+    new-leader: "<aqua><white>%player%</white> is now the group leader.</aqua>"
+
+    # -- /group exile --
+    # Sent to the leader and all remaining members. Placeholder: %player%
+    exiled-sender: "<red><white>%player%</white> has been exiled from the group.</red>"
+    # Sent to the exiled player
+    exiled-target: "<red>You have been exiled from the group by the leader.</red>"
+    # Sent to the leader when the target is not in their group
+    not-member: "<red>That player is not a member of your group.</red>"
+    # Sent when the leader tries to exile themselves
+    cannot-exile-self: "<red>You cannot exile yourself. Use <white>/group leave</white> or <white>/group delete</white>.</red>"
+
+  pvp:
+    request-sent: "<green>Duel request sent to <white>%target%</white>.</green>"
+    request-received-solo: "<yellow>Duel request from <white>%player%</white>. Type <white>/pvp confirm</white> or <white>/pvp deny</white>.</yellow>"
+    request-received-group: "<yellow>Duel request from <white>%player%</white> (group of <white>%size%</white>). Type <white>/pvp confirm</white> or <white>/pvp deny</white>.</yellow>"
+    solo-vs-group-error: "<red>Cannot duel a group solo. Create a group via /group create.</red>"
+    already-in-duel: "<red>You or the target player are already in a duel.</red>"
+    no-active-request: "<red>No active duel requests.</red>"
+    request-denied: "<yellow>Duel request denied.</yellow>"
+    request-denied-sender: "<red><white>%player%</white> denied your duel request.</red>"
+    end-vote-added: "<yellow><white>%player%</white> voted to end the duel [<white>%votes%/%total%</white>].</yellow>"
+    ended-peacefully: "<green>Duel ended by mutual consent.</green>"
+    player-eliminated: "<red><white>%player%</white> eliminated.</red>"
+    match-over-winner: "<green>Duel over. Winners: <white>%winners%</white></green>"
+    player-fled: "<red><white>%player%</white> disconnected. Duel ended. Winners: <white>%winners%</white></red>"
+    player-fled-disqualified: "<red><white>%player%</white> disconnected and was disqualified.</red>"
+    usage: "<yellow>Usage: /pvp <player> | /pvp confirm | /pvp deny | /pvp end</yellow>"
+
+  system:
+    reload-success: "<green>Configuration reloaded.</green>"
+    no-permission: "<red>Access denied.</red>"
+    reload-usage: "<red>Usage: /antipk reload.</red>"
+    initiator-error-msg: "<red>This command cannot be executed by anyone other than a player.</red>"
+
+    dump-not-found: "<red>Dump of <white>%player%</white>has been not found.</red>"
+    dump-expired: "<red>Dump of <white>%player%</white>has been expired.</red>"
+    space-error: "<red>There is not enough free space in the recipient's inventory</red>"
+    dump-info: |
+         <dark_aqua>Dump info</dark_aqua>
+         <aqua>Time when created: <white>%time%</white></aqua>
+         <aqua>Dump ID: <white>%id%</white></aqua>
+         <aqua>Kill type: <white>%killtype%</white></aqua>
+         <aqua>Killed by: <white>%killer%</white></aqua>
+         <aqua>Is expired? <white>%expireflag%</white></aqua>
+         <aqua>Time before expire: <white>%expiretime%</white></aqua>
+
+    dump-restore-suc: "<aqua>Sucessfully restored dump of <white>%player%</white>"
+    dump-restore-deny: "<red>Restoring dump of <white>%player%</white> has been denied."
+    are-you-sure: |
+         <yellow>Dump will be marked as <red>EXPIRED</red> after restoring.</yellow>
+         <yellow>Are you sure?</yellow><dark_red><click:run_command:'/antipk dump %player% restore %id% confirm'><b>[I AM SURE]</b></click></dark_red>
+
+    dump-list-header: "<yellow>━━━ Dumps for %player% (Page %page%/%max_pages%) ━━━</yellow>"
+    dump-list-item: "<aqua>ID: <white>%id%</white> | Time: <white>%time%</white> | Expired: <white>%expired%</white></aqua>"
+    dump-list-empty: "<red>No dumps found for %player%.</red>"
+    dump-usage: "<yellow>Usage: /antipk dump <nickname> <restore | dumps | info> [ id | page | confirm ]</yellow>"
+
+
+
+
+
+
