@@ -1,6 +1,6 @@
-# AntiPlayerKill (AntiPK)
+# Anti Player Kill (AntiPK)
 
-**AntiPlayerKill** is a Paper/Purpur plugin designed to prevent unauthorized player kills (RDM), enforce punishment rules, and provide system mechanisms for inventory safety and consensual PvP duels.
+**Anti Player Kill** is a Paper/Purpur plugin designed to prevent unauthorized player kills (RDM), enforce punishment rules, and provide system mechanisms for inventory safety and consensual PvP duels.
 
 ---
 
