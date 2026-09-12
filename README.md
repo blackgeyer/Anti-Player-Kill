@@ -24,7 +24,8 @@
 ## 📋 Requirements
 
 * **Java:** 21+ 
-* **Server Version:** Paper / Purpur 1.20.5+
+* **Server Version:** Spigot / Paper / Purpur or any other bukkit-based core 1.20.5+
+* **Adventure API** (If your core doesn't have Adventure API built in)
 
 ---
 
