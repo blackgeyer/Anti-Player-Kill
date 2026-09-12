@@ -1,5 +1,5 @@
 name: AntiPlayerKill
-version: 1.0.0
+version: 1.0.1
 main: org.antipk.AntiPlayerKill
 api-version: '1.20.5'
 authors: [blackgeyer/blackgeier]
