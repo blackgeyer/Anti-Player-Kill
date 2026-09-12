@@ -142,10 +142,18 @@ public class DuelManager {
     }
 
     public boolean handleDeath(UUID playerId) {
-        DuelSession session = activeSessions.remove(playerId);
-        if (session == null) return false;
+    DuelSession session = activeSessions.remove(playerId);
+    if (session == null) return false;
 
-        session.removePlayer(playerId);
-        return session.getRemainingTeamsCount() <= 1;
+    session.removePlayer(playerId);
+    boolean matchOver = session.getRemainingTeamsCount() <= 1;
+
+    if (matchOver) {
+        for (UUID participant : session.getParticipants()) {
+            activeSessions.remove(participant);
+        }
+    }
+
+    return matchOver;
     }
 }

@@ -13,8 +13,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.*;
+
 
 public class CombatListener implements Listener {
+
+    private final Map<UUID, DuelSession> activeSessions = new HashMap<>();
 
     private final CombatManager combatManager;
     private final JudgementManager judgementManager;
@@ -66,6 +70,7 @@ public class CombatListener implements Listener {
 
                 for (UUID uuid : allParticipants) {
                     Player p = victim.getServer().getPlayer(uuid);
+                    activeSessions.remove(uuid);
                     if (p != null) {
                         MessageUtil.sendMessage(p, message);
                     }
@@ -77,6 +82,7 @@ public class CombatListener implements Listener {
                 for (UUID uuid : session.getParticipants()) {
                     Player p = victim.getServer().getPlayer(uuid);
                     if (p != null) {
+                        activeSessions.remove(uuid);
                         MessageUtil.sendMessage(p, message);
                     }
                 }
