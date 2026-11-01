@@ -1,10 +1,19 @@
 # Anti Player Kill (AntiPK)
 
-**Anti Player Kill** is a Paper/Purpur plugin designed to prevent unauthorized player kills (RDM), enforce punishment rules, and provide system mechanisms for inventory safety and consensual PvP duels.
+![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
+![Folia Supported](https://img.shields.io/badge/Folia-Supported-brightgreen.svg)
+
+> **Author / Автор:** blackgeyer (also known as BlackGeier) | **Version / Версия:** 1.1.0 | **License / Лицензия:** GPLv3  
+> **Plugin Showcase / Видео с демонстрацией:** [Watch on Odysee](https://odysee.com/@blackgeyer:7/anti-player-kill-minecraft-plugin---001:6?r=FigUHodafNMPFnT1U4KyPvSuhe935aCt)
+
+> **Discord**: https://discord.gg/TvgqnJNKXW
+
+English
+**Anti Player Kill** is a Paper/Folia plugin designed to prevent unauthorized player kills (RDM), enforce punishment rules, and provide system mechanisms for inventory safety and consensual PvP duels.
 
 ---
 
-## ⚡ Features
+## Features
 
 * **Combat & Aggression Detection:** Tracks player hits and damage thresholds within a configurable time window to accurately flag unauthorized aggression.
 * **Warning & Punishment System:** 
@@ -21,15 +30,15 @@
 
 ---
 
-## 📋 Requirements
+## Requirements
 
 * **Java:** 21+ 
-* **Server Version:** Spigot / Paper / Purpur or any other bukkit-based core 1.20.5+
+* **Server Version:** Spigot / Paper / Purpur etc. any bukkit-based core or Folia 1.20.5+
 * **Adventure API** (If your core doesn't have Adventure API built in)
 
 ---
 
-## 🛠️ Commands & Permissions
+## Commands & Permissions
 
 ### Commands
 
@@ -46,36 +55,50 @@
 * `antipk.reload` — Grants access to `/antipk reload` (Default: `op`).
 * `antipk.dumps` — Grants access to `/antipk dump` management commands (Default: `op`).
 
+Русский
+**Anti Player Kill** — плагин для Paper/Folia, предотвращающий неразрешённые убийства игроков (RDM), обеспечивающий соблюдение правил наказаний и предоставляющий механизмы сохранности инвентаря и добровольных PvP-дуэлей.
+
 ---
 
-## Default Configuration (not all of it, showed only the most of importants)(`config.yml`)
+## Возможности
 
-```yaml
-warns:
-  warns-is-enabled: true
-  warn-msg: "<red>[!] You committed an unauthorized kill. Violation logged: [<white>%warns%/%max_warns%</white>].</red>"
-  last-warn-msg: "<dark_red><bold>[WARNING]</bold></dark_red> <red>Maximum limit reached. Any subsequent unauthorized kill will trigger an immediate punishment.</red>"
-  static-warn-msg: "<red>[!] You committed an unauthorized kill of a player.</red>"
-  warns-msg-is-enabled: true
-  warn-is-dynamic: true
-  warn-decay-minutes: 180
-  warn-limit: 2
+* **Обнаружение боя и агрессии:** Отслеживает удары и пороги урона в настраиваемом временном окне, чтобы точно определять неразрешённую агрессию.
+* **Система предупреждений и наказаний:** 
+  * Накапливает предупреждения за неразрешённые убийства с динамическим затуханием по времени.
+  * Выполняет настраиваемые консольные команды наказаний (например, `ban`, `kick`, `tempban`) при достижении порога предупреждений.
+  * Поддерживает множители за повторные нарушения и пользовательские ограничения длительности.
+* **Система дампов инвентаря:**
+  * Автоматически сохраняет снимок инвентаря игрока при неразрешённой смерти.
+  * Очищает выпадающие предметы при смерти, чтобы агрессоры не могли украсть добычу или злоупотребить ресурсами.
+  * Административные команды для просмотра, получения списка и восстановления дампов инвентаря жертвам.
+* **Система групп и пати:** Позволяет игрокам создавать группы для управления командным взаимодействием и групповыми дуэлями.
+* **Добровольное PvP / дуэли:** Позволяет игрокам и группам начинать дуэли по обоюдному согласию, полностью обходя проверки RDM и наказания.
+* **Форматирование MiniMessage:** Полная поддержка расширенного текста и современного цветового форматирования во всех системных сообщениях.
 
-actions:
-  actions-is-enabled: true
-  punishment-command: "ban %player% %duration% %reason%"
-  default-reason: "Exceeded maximum RDM violation limit."
-  relapse-detect: true
-  base-punishment-duration: "24h"
-  repeat-multiplier: 2.0
-  max-duration: "30d"
+---
 
-combat:
-  ttl-seconds: 30
-  min-damage-threshold: 4.0
-  min-hits-threshold: 2
+## Требования
 
-dumps:
-  dump-creating: true
-  inv-clear-when-die: true
-  clear-time: "7d"
+* **Java:** 21+ 
+* **Версия сервера:** Spigot / Paper / Purpur и т. д., любое ядро на базе Bukkit или Folia 1.20.5+
+* **Adventure API** (если в вашем ядре нет встроенного Adventure API)
+
+---
+
+## Команды и права
+
+### Команды
+
+| Команда | Описание | Право |
+| :--- | :--- | :--- |
+| `/antipk reload` | Перезагружает конфигурацию плагина | `antipk.reload` |
+| `/antipk dump <nickname> <dumps \| info \| restore> [page \| id \| confirm]` | Управление дампами инвентаря игроков и их восстановление | `antipk.dumps` |
+| `/pvp <nickname \| confirm \| deny \| end>` | Управление запросами на добровольное PvP и дуэлями | Все |
+| `/group <create \| invite \| accept \| exile \| leave \| delete \| info>` | Команды управления группами и пати | Все |
+
+### Права
+
+* `antipk.bypass.aggression` — позволяет игрокам убивать других без пометки как агрессоров (по умолчанию: `false`).
+* `antipk.reload` — даёт доступ к `/antipk reload` (по умолчанию: `op`).
+* `antipk.dumps` — даёт доступ к командам управления `/antipk dump` (по умолчанию: `op`).
+
