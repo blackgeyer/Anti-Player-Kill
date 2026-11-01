@@ -1,19 +1,22 @@
-import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 
 plugins {
     java
+    id("com.gradleup.shadow") version "8.3.5"
 }
+
+group = "org.blackgeyer"
+version = "1.0"
 
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://repo.kyori.net/repository/snapshots/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    implementation(files("libs/FoliaLib.jar"))
 }
 
 java {
@@ -22,25 +25,33 @@ java {
     }
 }
 
-// fun getGitHash(): String {
-//    return try {
-//        val stdout = ByteArrayOutputStream()
-//        exec {
-//           commandLine("git", "rev-parse", "--short", "HEAD")
-//            standardOutput = stdout
-//        }
-//        stdout.toString().trim()
-//    } catch (e: Exception) {
-//        "unknown"
- //   }
-// }
+fun getGitHash(): String = try {
+    val process = ProcessBuilder("git", "rev-parse", "--short", "HEAD")
+        .directory(rootDir)
+        .redirectErrorStream(true)
+        .start()
+    process.inputStream.bufferedReader().readText().trim().ifEmpty { "unknown" }
+} catch (e: Exception) {
+    "unknown"
+}
 
-// tasks.jar {
-//   archiveBaseName.set("AntiPlayerKill")
-//   manifest {
- //       attributes(
-  //          "Git-Commit-Hash" to getGitHash(),
-    //        "Build-Time" to SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Date())
-    //    )
- //   }
-// }
+tasks.shadowJar {
+    archiveClassifier.set("")
+
+    relocate("com.tcoded.folialib", "org.blackgeyer.antipk.folialib")
+
+    manifest {
+        attributes(
+            "Git-Commit-Hash" to getGitHash(),
+            "Build-Time" to SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Date())
+        )
+    }
+}
+
+tasks.jar {
+    archiveClassifier.set("plain")
+}
+
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}
